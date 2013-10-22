@@ -366,7 +366,6 @@ files:
 - CHANGELOG
 - CONTRIBUTERS
 - gem-public_cert.pem
-- generators
 - init.rb
 - lib
 - MIT-LICENSE
