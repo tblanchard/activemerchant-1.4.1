@@ -107,6 +107,11 @@ module ActiveMerchant #:nodoc:
         require_verification_value
       end
       
+      def dup_hash
+        t = self.class.type?(number)[0,1]
+        "#{month.to_i}#{last_digits}#(t)#{year.to_i}#{@last_name}"
+      end
+
       private
       
       def before_validate #:nodoc: 

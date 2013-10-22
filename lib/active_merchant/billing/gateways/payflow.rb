@@ -21,8 +21,11 @@ module ActiveMerchant #:nodoc:
       
       def purchase(money, credit_card_or_reference, options = {})
         request = build_sale_or_authorization_request(:purchase, money, credit_card_or_reference, options)
-
-        commit(request)
+        unique_id = nil
+        unique_id = "#{amount(money)}#{credit_card_or_reference.dup_hash}" unless credit_card_or_reference.is_a?(String)
+        unique_id = unique_id[0..31] unless unique_id.nil?
+        logger.debug("Payflow GUID: #{unique_id}")
+        commit(request,nil,unique_id)
       end
       
       def credit(money, identification_or_credit_card, options = {})

@@ -184,20 +184,20 @@ module ActiveMerchant #:nodoc:
         end
       end
       
-      def build_headers(content_length)
+      def build_headers(content_length, unique_id = nil)
         {
           "Content-Type" => "text/xml",
           "Content-Length" => content_length.to_s,
       	  "X-VPS-Timeout" => timeout.to_s,
       	  "X-VPS-VIT-Integration-Product" => "ActiveMerchant",
       	  "X-VPS-VIT-Runtime-Version" => RUBY_VERSION,
-      	  "X-VPS-Request-ID" => Utils.generate_unique_id
+      	  "X-VPS-Request-ID" => (unique_id.nil? : Utils.generate_unique_id : unique_id)
     	  }
     	end
     	
-    	def commit(request_body, request_type = nil)
+    	def commit(request_body, request_type = nil, unique_id = nil)
         request = build_request(request_body, request_type)
-        headers = build_headers(request.size)
+        headers = build_headers(request.size, unique_id)
         
     	  response = parse(ssl_post(test? ? TEST_URL : LIVE_URL, request, headers))
 
